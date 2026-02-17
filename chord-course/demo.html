@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旋律演示测试</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            min-height: 100vh;
+            padding: 2rem;
+            color: white;
+        }
+        h1 { text-align: center; margin-bottom: 2rem; }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .demo-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .demo-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        .demo-card .chords {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .btn-melody {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-chords {
+            background: #334155;
+            color: #e2e8f0;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .hint {
+            text-align: center;
+            margin-top: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .playing {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 和弦走向旋律演示</h1>
+    
+    <div class="demo-grid">
+        <div class="demo-card" id="card-canon">
+            <h3>Canon 进行</h3>
+            <p class="chords">C → G → Am → F</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('canon', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['C','G','Am','F'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-50s">
+            <h3>50年代进行</h3>
+            <p class="chords">C → Am → F → G</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('50s', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['C','Am','F','G'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-sad">
+            <h3>悲伤进行</h3>
+            <p class="chords">Am → F → C → G</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('sad', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['Am','F','C','G'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-simple">
+            <h3>三和弦</h3>
+            <p class="chords">C → F → G → C</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('simple', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['C','F','G','C'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-iiv">
+            <h3>ii-V-I (爵士)</h3>
+            <p class="chords">Dm → G → C</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('iiv', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['Dm','G','C'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-axis">
+            <h3>Axis 进行</h3>
+            <p class="chords">Am → F → C → G</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('axis', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['Am','F','C','G'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-sensitive">
+            <h3>敏感进行</h3>
+            <p class="chords">C → Em → Am → F</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('sensitive', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['C','Em','Am','F'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-andalusian">
+            <h3>Andalusian</h3>
+            <p class="chords">Am → G → F → E</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('andalusian', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['Am','G','F','E'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+        
+        <div class="demo-card" id="card-blues">
+            <h3>12小节蓝调</h3>
+            <p class="chords">CCCC FFCC GFCG</p>
+            <div class="btn-group">
+                <button class="btn btn-melody" onclick="playWithMelody('blues12', this)">🎹 带旋律</button>
+                <button class="btn btn-chords" onclick="playOnlyChords(['C','C','C','C','F','F','C','C','G','F','C','G'], this)">🎵 仅和弦</button>
+            </div>
+        </div>
+    </div>
+    
+    <p class="hint">💡 点击"带旋律"可以听到该走向的旋律演示，"仅和弦"只播放和弦</p>
+    
+    <script src="audio-engine.js"></script>
+    <script>
+        let currentCard = null;
+        
+        async function playWithMelody(name, btn) {
+            clearHighlight();
+            const card = btn.closest('.demo-card');
+            card.classList.add('playing');
+            currentCard = card;
+            await playDemo(name);
+            setTimeout(() => {
+                if (currentCard === card) card.classList.remove('playing');
+            }, 5000);
+        }
+        
+        async function playOnlyChords(chords, btn) {
+            clearHighlight();
+            const card = btn.closest('.demo-card');
+            card.classList.add('playing');
+            currentCard = card;
+            await playProgression(chords);
+            setTimeout(() => {
+                if (currentCard === card) card.classList.remove('playing');
+            }, 3000);
+        }
+        
+        function clearHighlight() {
+            document.querySelectorAll('.demo-card').forEach(c => c.classList.remove('playing'));
+        }
+    </script>
+</body>
+</html>

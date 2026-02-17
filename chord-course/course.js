@@ -21,6 +21,18 @@ const lessonData = {
     }
 };
 
+// 走向练习数据
+const progressionData = {
+    progressions: {
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon进行' },
+        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代进行' },
+        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤进行' },
+        'simple': { chords: ['C', 'F', 'G', 'C'], name: '三和弦' }
+    },
+    currentProgression: null,
+    stats: { correct: 0, total: 0 }
+};
+
 /**
  * 播放随机和弦
  */
@@ -74,6 +86,99 @@ function checkAnswer(lessonId, answer) {
     updateStats(lessonId);
     showFeedback(lessonId, correct, lesson.currentChord);
     highlightAnswer(lessonId, answer, correct);
+}
+
+/**
+ * 播放随机走向
+ */
+async function playRandomProgression() {
+    const keys = Object.keys(progressionData.progressions);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    
+    progressionData.currentProgression = randomKey;
+    const progression = progressionData.progressions[randomKey];
+    
+    // 更新显示
+    const display = document.getElementById('question-display-prog');
+    if (display) {
+        display.textContent = '🔊 正在播放和弦走向...';
+    }
+    
+    // 播放走向
+    await playProgression(progression.chords);
+    
+    setTimeout(() => {
+        if (display) {
+            display.textContent = '🎧 听出来了吗？';
+        }
+    }, 500);
+    
+    // 重置按钮
+    resetProgressionButtons();
+}
+
+/**
+ * 检查走向答案
+ */
+function checkProgressionAnswer(answer) {
+    const correct = answer === progressionData.currentProgression;
+    const correctProg = progressionData.progressions[progressionData.currentProgression];
+    
+    progressionData.stats.total++;
+    if (correct) {
+        progressionData.stats.correct++;
+    }
+    
+    // 更新统计
+    document.getElementById('correct-prog').textContent = progressionData.stats.correct;
+    document.getElementById('total-prog').textContent = progressionData.stats.total;
+    
+    // 显示反馈
+    const feedback = document.getElementById('feedback-prog');
+    if (correct) {
+        feedback.textContent = `✅ 正确！这是${correctProg.name} (${correctProg.chords.join('-')})`;
+        feedback.className = 'practice-feedback correct';
+    } else {
+        const userProg = progressionData.progressions[answer];
+        feedback.textContent = `❌ 不对哦，正确答案是${correctProg.name} (${correctProg.chords.join('-')})`;
+        feedback.className = 'practice-feedback wrong';
+    }
+    
+    // 高亮按钮
+    highlightProgressionAnswer(answer, correct);
+}
+
+/**
+ * 高亮走向答案
+ */
+function highlightProgressionAnswer(answer, correct) {
+    const buttons = document.querySelectorAll('#answer-buttons-prog .answer-btn');
+    
+    buttons.forEach(btn => {
+        btn.classList.remove('correct', 'wrong');
+        
+        if (btn.dataset.answer === progressionData.currentProgression) {
+            btn.classList.add('correct');
+        } else if (btn.dataset.answer === answer && !correct) {
+            btn.classList.add('wrong');
+        }
+    });
+}
+
+/**
+ * 重置走向按钮
+ */
+function resetProgressionButtons() {
+    const buttons = document.querySelectorAll('#answer-buttons-prog .answer-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('correct', 'wrong');
+    });
+    
+    const feedback = document.getElementById('feedback-prog');
+    if (feedback) {
+        feedback.textContent = '';
+        feedback.className = 'practice-feedback';
+    }
 }
 
 /**

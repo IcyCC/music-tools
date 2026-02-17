@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和弦走向听力训练器 | Chord Progression Ear Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
+</head>
+<body>
+    <!-- 启动屏幕 -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-icon">🎹</div>
+            <h1>和弦走向听力训练器</h1>
+            <p class="splash-subtitle">Chord Progression Ear Trainer</p>
+            <div class="splash-features">
+                <div class="feature-item"><span class="icon">✓</span>12个大调 + 12个小调</div>
+                <div class="feature-item"><span class="icon">✓</span>50+种常见和弦走向</div>
+                <div class="feature-item"><span class="icon">✓</span>多种练习模式</div>
+                <div class="feature-item"><span class="icon">✓</span>难度分级系统</div>
+            </div>
+            <button class="btn-primary btn-large" onclick="startApp()">
+                开始训练 <span class="arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主应用 -->
+    <div id="app" class="app hidden">
+        <!-- 顶部导航 -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <span class="logo">🎹</span>
+                <span class="title">和弦听力训练</span>
+            </div>
+            <div class="navbar-stats">
+                <div class="stat-item">
+                    <span class="stat-label">正确率</span>
+                    <span class="stat-value" id="accuracy">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">连续正确</span>
+                    <span class="stat-value" id="streak">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">总分</span>
+                    <span class="stat-value" id="total-score">0</span>
+                </div>
+            </div>
+            <div class="navbar-actions">
+                <button class="btn-icon" onclick="showSettings()" title="设置">⚙️</button>
+                <button class="btn-icon" onclick="showHelp()" title="帮助">❓</button>
+            </div>
+        </nav>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 左侧边栏 - 设置面板 -->
+            <aside class="sidebar" id="settings-panel">
+                <div class="panel-section">
+                    <h3 class="section-title">🎯 练习模式</h3>
+                    <div class="mode-grid">
+                        <button class="mode-btn active" data-mode="progression" onclick="setMode('progression')">
+                            <span class="mode-icon">🎼</span>
+                            <span class="mode-name">识别走向</span>
+                        </button>
+                        <button class="mode-btn" data-mode="single" onclick="setMode('single')">
+                            <span class="mode-icon">🎵</span>
+                            <span class="mode-name">单个和弦</span>
+                        </button>
+                        <button class="mode-btn" data-mode="key" onclick="setMode('key')">
+                            <span class="mode-icon">🔑</span>
+                            <span class="mode-name">调性识别</span>
+                        </button>
+                        <button class="mode-btn" data-mode="dictation" onclick="setMode('dictation')">
+                            <span class="mode-icon">📝</span>
+                            <span class="mode-name">听写模式</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">📊 难度级别</h3>
+                    <div class="difficulty-slider">
+                        <div class="difficulty-track">
+                            <div class="difficulty-fill" id="difficulty-fill"></div>
+                            <div class="difficulty-thumb" id="difficulty-thumb"></div>
+                        </div>
+                        <div class="difficulty-labels">
+                            <span onclick="setDifficulty(1)">初级</span>
+                            <span onclick="setDifficulty(2)">中级</span>
+                            <span onclick="setDifficulty(3)">高级</span>
+                            <span onclick="setDifficulty(4)">专家</span>
+                            <span onclick="setDifficulty(5)">大师</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">🎼 风格选择</h3>
+                    <div class="style-options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked data-style="pop">
+                            <span class="checkmark"></span>
+                            <span class="option-text">流行 Pop</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked data-style="jazz">
+                            <span class="checkmark"></span>
+                            <span class="option-text">爵士 Jazz</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-style="classical">
+                            <span class="checkmark"></span>
+                            <span class="option-text">古典 Classical</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-style="blues">
+                            <span class="checkmark"></span>
+                            <span class="option-text">蓝调 Blues</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" data-style="rock">
+                            <span class="checkmark"></span>
+                            <span class="option-text">摇滚 Rock</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">🔑 调性选择</h3>
+                    <div class="key-selector">
+                        <div class="key-group">
+                            <h4>大调 Major</h4>
+                            <div class="key-buttons">
+                                <button class="key-btn active" data-key="C">C</button>
+                                <button class="key-btn" data-key="G">G</button>
+                                <button class="key-btn" data-key="D">D</button>
+                                <button class="key-btn" data-key="A">A</button>
+                                <button class="key-btn" data-key="E">E</button>
+                                <button class="key-btn" data-key="B">B</button>
+                                <button class="key-btn" data-key="F#">F#</button>
+                                <button class="key-btn" data-key="F">F</button>
+                                <button class="key-btn" data-key="Bb">Bb</button>
+                                <button class="key-btn" data-key="Eb">Eb</button>
+                                <button class="key-btn" data-key="Ab">Ab</button>
+                                <button class="key-btn" data-key="Db">Db</button>
+                            </div>
+                        </div>
+                        <div class="key-group">
+                            <h4>小调 Minor</h4>
+                            <div class="key-buttons">
+                                <button class="key-btn" data-key="Am">Am</button>
+                                <button class="key-btn" data-key="Em">Em</button>
+                                <button class="key-btn" data-key="Bm">Bm</button>
+                                <button class="key-btn" data-key="F#m">F#m</button>
+                                <button class="key-btn" data-key="C#m">C#m</button>
+                                <button class="key-btn" data-key="G#m">G#m</button>
+                                <button class="key-btn" data-key="D#m">D#m</button>
+                                <button class="key-btn" data-key="Dm">Dm</button>
+                                <button class="key-btn" data-key="Gm">Gm</button>
+                                <button class="key-btn" data-key="Cm">Cm</button>
+                                <button class="key-btn" data-key="Fm">Fm</button>
+                                <button class="key-btn" data-key="Bbm">Bbm</button>
+                            </div>
+                        </div>
+                        <button class="btn-link" onclick="selectAllKeys()">全选</button>
+                        <button class="btn-link" onclick="deselectAllKeys()">取消全选</button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">🎛️ 播放设置</h3>
+                    <div class="setting-row">
+                        <label>速度 (BPM)</label>
+                        <input type="range" min="40" max="200" value="90" id="bpm-slider" oninput="updateBPM(this.value)">
+                        <span id="bpm-value">90</span>
+                    </div>
+                    <div class="setting-row">
+                        <label>和弦持续时间</label>
+                        <input type="range" min="0.5" max="2" step="0.1" value="1" id="duration-slider" oninput="updateDuration(this.value)">
+                        <span id="duration-value">1.0s</span>
+                    </div>
+                    <div class="setting-row">
+                        <label>乐器音色</label>
+                        <select id="instrument-select" onchange="setInstrument(this.value)">
+                            <option value="piano">钢琴</option>
+                            <option value="guitar">吉他</option>
+                            <option value="synth">合成器</option>
+                            <option value="organ">风琴</option>
+                            <option value="strings">弦乐</option>
+                        </select>
+                    </div>
+                    <div class="setting-row toggle-row">
+                        <label>显示和弦标记</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="show-labels" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row toggle-row">
+                        <label>自动播放下一个</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-play">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 中间主训练区 -->
+            <div class="training-area">
+                <!-- 当前题目信息 -->
+                <div class="question-header">
+                    <div class="question-number">
+                        <span class="label">题目</span>
+                        <span class="number" id="question-num">1</span>
+                    </div>
+                    <div class="question-type" id="question-type">识别和弦走向</div>
+                    <div class="timer" id="timer">
+                        <span class="timer-icon">⏱️</span>
+                        <span id="time-elapsed">0:00</span>
+                    </div>
+                </div>
+
+                <!-- 和弦可视化区域 -->
+                <div class="visualization-area">
+                    <div class="piano-roll" id="piano-roll">
+                        <!-- 动态生成的钢琴卷帘 -->
+                    </div>
+                    <div class="chord-display" id="chord-display">
+                        <div class="current-chord" id="current-chord">
+                            <span class="chord-name">-</span>
+                        </div>
+                        <div class="progression-indicator" id="progression-indicator">
+                            <!-- 和弦进行指示器 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 播放控制 -->
+                <div class="playback-controls">
+                    <button class="btn-playback" onclick="playPrevious()" title="上一个">
+                        <span class="icon">⏮️</span>
+                    </button>
+                    <button class="btn-playback btn-play-main" onclick="playProgression()" id="play-btn" title="播放">
+                        <span class="icon" id="play-icon">▶️</span>
+                    </button>
+                    <button class="btn-playback" onclick="playNext()" title="下一个">
+                        <span class="icon">⏭️</span>
+                    </button>
+                    <button class="btn-playback" onclick="stopPlayback()" title="停止">
+                        <span class="icon">⏹️</span>
+                    </button>
+                    <div class="speed-control">
+                        <button class="btn-speed" onclick="changeSpeed(-0.25)">-</button>
+                        <span class="speed-value" id="speed-value">1x</span>
+                        <button class="btn-speed" onclick="changeSpeed(0.25)">+</button>
+                    </div>
+                </div>
+
+                <!-- 答案区域 -->
+                <div class="answer-area" id="answer-area">
+                    <!-- 根据模式动态生成 -->
+                </div>
+
+                <!-- 提交和下一步 -->
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="skipQuestion()">跳过</button>
+                    <button class="btn-secondary" onclick="getHint()">提示</button>
+                    <button class="btn-primary" onclick="submitAnswer()" id="submit-btn">提交答案</button>
+                    <button class="btn-primary hidden" onclick="nextQuestion()" id="next-btn">下一题</button>
+                </div>
+
+                <!-- 反馈区域 -->
+                <div class="feedback-area hidden" id="feedback-area">
+                    <div class="feedback-icon" id="feedback-icon">✓</div>
+                    <div class="feedback-text" id="feedback-text">正确！</div>
+                    <div class="feedback-details" id="feedback-details">
+                        <div class="detail-row">
+                            <span class="detail-label">正确答案：</span>
+                            <span class="detail-value" id="correct-answer">I - IV - V - I</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">你的答案：</span>
+                            <span class="detail-value" id="user-answer">I - IV - V - I</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧边栏 - 进度和参考 -->
+            <aside class="sidebar sidebar-right">
+                <div class="panel-section">
+                    <h3 class="section-title">📈 学习进度</h3>
+                    <div class="progress-chart">
+                        <canvas id="progress-canvas" width="200" height="150"></canvas>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <span class="stat-label">今日练习</span>
+                            <span class="stat-value" id="today-count">0</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-label">总计</span>
+                            <span class="stat-value" id="total-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">🏆 成就</h3>
+                    <div class="achievements" id="achievements">
+                        <div class="achievement locked">
+                            <span class="achievement-icon">🎯</span>
+                            <span class="achievement-name">初次成功</span>
+                        </div>
+                        <div class="achievement locked">
+                            <span class="achievement-icon">🔥</span>
+                            <span class="achievement-name">五连胜</span>
+                        </div>
+                        <div class="achievement locked">
+                            <span class="achievement-icon">⭐</span>
+                            <span class="achievement-name">十连胜</span>
+                        </div>
+                        <div class="achievement locked">
+                            <span class="achievement-icon">🎓</span>
+                            <span class="achievement-name">专家级</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">📚 和弦走向参考</h3>
+                    <div class="reference-list" id="reference-list">
+                        <div class="reference-category">
+                            <h4 class="category-title" onclick="toggleCategory('pop-progressions')">
+                                流行 Pop <span class="arrow">▼</span>
+                            </h4>
+                            <div class="category-content" id="pop-progressions">
+                                <div class="progression-item">
+                                    <span class="numerals">I - V - vi - IV</span>
+                                    <span class="name">Canon进行</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">I - vi - IV - V</span>
+                                    <span class="name">50年代进行</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">vi - IV - I - V</span>
+                                    <span class="name">悲伤进行</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">I - IV - V - I</span>
+                                    <span class="name">基础三和弦</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reference-category">
+                            <h4 class="category-title" onclick="toggleCategory('jazz-progressions')">
+                                爵士 Jazz <span class="arrow">▼</span>
+                            </h4>
+                            <div class="category-content" id="jazz-progressions">
+                                <div class="progression-item">
+                                    <span class="numerals">ii - V - I</span>
+                                    <span class="name">爵士核心</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">vi - ii - V - I</span>
+                                    <span class="name">扩展ii-V-I</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">I - vi - ii - V</span>
+                                    <span class="name">Turnaround</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">iii - vi - ii - V - I</span>
+                                    <span class="name">All The Things</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reference-category">
+                            <h4 class="category-title" onclick="toggleCategory('blues-progressions')">
+                                蓝调 Blues <span class="arrow">▼</span>
+                            </h4>
+                            <div class="category-content" id="blues-progressions">
+                                <div class="progression-item">
+                                    <span class="numerals">I - I - I - I - IV - IV - I - I - V - IV - I - V</span>
+                                    <span class="name">12小节蓝调</span>
+                                </div>
+                                <div class="progression-item">
+                                    <span class="numerals">I - IV - I - V</span>
+                                    <span class="name">8小节蓝调</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">🎸 弱项分析</h3>
+                    <div class="weakness-list" id="weakness-list">
+                        <div class="weakness-item">
+                            <span class="weakness-name">ii-V-I识别</span>
+                            <div class="weakness-bar">
+                                <div class="weakness-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="weakness-percent">65%</span>
+                        </div>
+                        <div class="weakness-item">
+                            <span class="weakness-name">转调识别</span>
+                            <div class="weakness-bar">
+                                <div class="weakness-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="weakness-percent">45%</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 底部信息栏 -->
+        <footer class="footer">
+            <div class="footer-info">
+                <span>和弦走向听力训练器 v1.0</span>
+                <span class="separator">|</span>
+                <span>当前调性: <strong id="current-key">C 大调</strong></span>
+                <span class="separator">|</span>
+                <span>难度: <strong id="current-difficulty">初级</strong></span>
+            </div>
+            <div class="footer-controls">
+                <button class="btn-text" onclick="resetProgress()">重置进度</button>
+                <button class="btn-text" onclick="exportProgress()">导出数据</button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div class="modal hidden" id="settings-modal">
+        <div class="modal-backdrop" onclick="closeModal('settings-modal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ 设置</h2>
+                <button class="btn-close" onclick="closeModal('settings-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <h3>音频设置</h3>
+                    <div class="setting-row">
+                        <label>主音量</label>
+                        <input type="range" min="0" max="100" value="80" id="master-volume">
+                    </div>
+                    <div class="setting-row">
+                        <label>混响</label>
+                        <input type="range" min="0" max="100" value="30" id="reverb-amount">
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>显示设置</h3>
+                    <div class="setting-row toggle-row">
+                        <label>深色模式</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-mode">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row toggle-row">
+                        <label>显示钢琴键盘</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="show-piano" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row toggle-row">
+                        <label>罗马数字标记</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="roman-numerals" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="resetSettings()">重置</button>
+                <button class="btn-primary" onclick="saveSettings()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帮助模态框 -->
+    <div class="modal hidden" id="help-modal">
+        <div class="modal-backdrop" onclick="closeModal('help-modal')"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>❓ 使用帮助</h2>
+                <button class="btn-close" onclick="closeModal('help-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>🎯 练习模式说明</h3>
+                    <div class="help-item">
+                        <h4>识别走向</h4>
+                        <p>听一段和弦进行，选择正确的罗马数字标记（如 I-IV-V-I）</p>
+                    </div>
+                    <div class="help-item">
+                        <h4>单个和弦</h4>
+                        <p>识别单个和弦的性质（大调、小调、属七等）</p>
+                    </div>
+                    <div class="help-item">
+                        <h4>调性识别</h4>
+                        <p>听一段进行，判断是什么调</p>
+                    </div>
+                    <div class="help-item">
+                        <h4>听写模式</h4>
+                        <p>完整听写出和弦进行的每个和弦</p>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>⌨️ 快捷键</h3>
+                    <div class="shortcut-list">
+                        <div class="shortcut-item"><kbd>Space</kbd> 播放/暂停</div>
+                        <div class="shortcut-item"><kbd>Enter</kbd> 提交答案</div>
+                        <div class="shortcut-item"><kbd>N</kbd> 下一题</div>
+                        <div class="shortcut-item"><kbd>H</kbd> 显示提示</div>
+                        <div class="shortcut-item"><kbd>R</kbd> 重复播放</div>
+                        <div class="shortcut-item"><kbd>1-9</kbd> 选择答案</div>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>📚 学习建议</h3>
+                    <ol class="tips-list">
+                        <li>从初级难度开始，逐渐提高</li>
+                        <li>先熟悉 I、IV、V 级和弦的听感</li>
+                        <li>注意和弦之间的"解决感"和"张力"</li>
+                        <li>每天坚持练习15-30分钟</li>
+                        <li>结合实际歌曲进行分析</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="theory.js"></script>
+    <script src="audio.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+/* ===== 基础样式 ===== */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #10b981;
+    --accent: #f59e0b;
+    --danger: #ef4444;
+    
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-hover: #334155;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --border: #334155;
+    
+    --radius: 12px;
+    --radius-lg: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* ===== 导航 ===== */
+.course-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.nav-lessons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.lesson-tab {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.lesson-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.lesson-tab:hover:not(.active) {
+    background: var(--bg-card);
+}
+
+/* ===== 课程页面 ===== */
+.lesson {
+    display: none;
+    padding: 1rem;
+}
+
+.lesson.active {
+    display: block;
+}
+
+.lesson-header {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.1) 100%);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+}
+
+.lesson-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: var(--primary);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.lesson-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.lesson-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* ===== 概念区域 ===== */
+.concept-section {
+    margin-bottom: 2rem;
+}
+
+.concept-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.concept-section.highlight {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.concept-card {
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.concept-card p {
+    margin-bottom: 0.75rem;
+}
+
+.concept-card p:last-child {
+    margin-bottom: 0;
+}
+
+.concept-card ul {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+}
+
+.concept-card li {
+    margin-bottom: 0.4rem;
+}
+
+/* ===== 可视化示例 ===== */
+.visual-example {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-radius: var(--radius);
+}
+
+.note-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.note-stack .note {
+    padding: 0.3rem 0.6rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.equals {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.chord-name.big {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ===== 和弦区块 ===== */
+.chord-section {
+    margin-bottom: 2rem;
+}
+
+.chord-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.chord-block {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.chord-block.minor {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.chord-block .chord-header {
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chord-block.minor .chord-header {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+
+.chord-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.chord-function {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+}
+
+.chord-content {
+    padding: 1rem;
+}
+
+.chord-info {
+    margin-bottom: 1rem;
+}
+
+.chord-notes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.note-ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary), #059669);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.note-ball.minor {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.plus {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.chord-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.chord-desc strong {
+    color: var(--text-primary);
+}
+
+.chord-audio {
+    background: var(--bg-dark);
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.audio-hint {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.real-example {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    padding: 1rem;
+    border-radius: var(--radius);
+}
+
+.real-example h4 {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.real-example p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+/* ===== 播放按钮 ===== */
+.play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.play-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.play-btn:active {
+    transform: translateY(0);
+}
+
+.play-btn.large {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+}
+
+.play-btn.xlarge {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.play-btn.secondary {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+.play-btn.challenge {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.play-icon {
+    font-size: 1.1em;
+}
+
+/* ===== 解决演示 ===== */
+.resolution-demo {
+    margin-top: 1.5rem;
+}
+
+.resolution-demo h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.demo-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.demo-hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.75rem;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+}
+
+/* ===== 对比演示 ===== */
+.comparison-demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.compare-item {
+    text-align: center;
+}
+
+.compare-vs {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.compare-desc {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ===== 对比表格 ===== */
+.comparison-table {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-row.header {
+    background: var(--bg-dark);
+    font-weight: 600;
+}
+
+.table-cell {
+    padding: 0.75rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.mini-btn {
+    padding: 0.3rem 0.6rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.feeling {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ===== 练习区域 ===== */
+.practice-section {
+    margin-bottom: 2rem;
+}
+
+.practice-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.practice-intro {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.practice-area {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.practice-question {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.question-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.question-display {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.answer-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.answer-buttons.grid-6 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.answer-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.answer-btn:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.answer-btn.minor {
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.answer-btn.minor:hover {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.answer-btn.correct {
+    border-color: var(--secondary);
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.answer-btn.wrong {
+    border-color: var(--danger);
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.answer-chord {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.answer-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.practice-feedback {
+    text-align: center;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.practice-feedback.correct {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--secondary);
+}
+
+.practice-feedback.wrong {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.practice-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ===== 挑战模式 ===== */
+.practice-section.challenge {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* ===== 总结区域 ===== */
+.summary-section {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.summary-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.summary-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-radius: var(--radius);
+}
+
+.summary-icon {
+    font-size: 1.5rem;
+}
+
+.summary-content {
+    flex: 1;
+}
+
+.summary-content strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.summary-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.tips-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.tips-box h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.tips-box ol {
+    padding-left: 1.25rem;
+}
+
+.tips-box li {
+    margin-bottom: 0.4rem;
+    color: var(--text-secondary);
+}
+
+.next-btn, .prev-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.next-btn:hover, .prev-btn:hover {
+    background: var(--primary-dark);
+}
+
+.prev-btn {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+}
+
+/* ===== 底部 ===== */
+.footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border);
+}
+
+.footer-hint {
+    margin-top: 0.5rem;
+    color: var(--accent);
+}
+
+/* ===== 响应式 ===== */
+@media (min-width: 768px) {
+    .lesson {
+        padding: 1.5rem;
+    }
+    
+    .lesson-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .answer-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .answer-buttons.grid-6 {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .demo-buttons {
+        flex-direction: row;
+    }
+    
+    .summary-card {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .summary-item {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+/* ===== 动画 ===== */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.play-btn:active {
+    animation: pulse 0.3s;
+}

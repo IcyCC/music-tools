@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>和弦听辨入门课程 | Chord Ear Training</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- 课程导航 -->
+        <nav class="course-nav">
+            <div class="nav-brand">🎹 和弦听辨入门</div>
+            <div class="nav-lessons">
+                <button class="lesson-tab active" data-lesson="1">第1课</button>
+                <button class="lesson-tab" data-lesson="2">第2课</button>
+            </div>
+        </nav>
+
+        <!-- ========== 第1课：C、F、G ========== -->
+        <div class="lesson active" id="lesson-1">
+            <div class="lesson-header">
+                <div class="lesson-badge">第1课</div>
+                <h1>认识三个最重要的和弦：C、F、G</h1>
+                <p class="lesson-subtitle">这三个和弦是流行音乐的基础，学会它们你就能听懂大部分歌曲！</p>
+            </div>
+
+            <div class="lesson-content">
+                <!-- 概念讲解 -->
+                <section class="concept-section">
+                    <h2>📚 什么是和弦？</h2>
+                    <div class="concept-card">
+                        <p><strong>和弦</strong>就是三个或更多音符同时发声的组合。</p>
+                        <p>想象一下：如果旋律是"一句话"，那和弦就是这句话的<strong>"背景情绪"</strong>。</p>
+                        <div class="visual-example">
+                            <div class="note-stack">
+                                <span class="note">E</span>
+                                <span class="note">C</span>
+                                <span class="note">G</span>
+                            </div>
+                            <span class="equals">=</span>
+                            <span class="chord-name big">C 和弦</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 三个和弦分别讲解 -->
+                <section class="chord-section">
+                    <h2>🎵 认识 C、F、G 三个和弦</h2>
+                    
+                    <!-- C和弦 - 主和弦 -->
+                    <div class="chord-block" data-chord="C">
+                        <div class="chord-header">
+                            <h3 class="chord-title">C 和弦 - "家"的感觉</h3>
+                            <span class="chord-function">主和弦 (Tonic)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball">C</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">E</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">G</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>C和弦</strong>是C大调的"主和弦"，也是这个调的<strong>"家"</strong>。
+                                    听到它，你会感觉<strong>"完成了"、"稳定了"</strong>。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('C', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 C 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：明亮、稳定、像回到家的感觉</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"小星星"</strong> 开头第一个和弦就是C，"一闪一闪亮晶晶"——那个明亮稳定的声音。</p>
+                                <p><strong>"Let It Be"</strong> (Beatles) 主歌开始也是C和弦。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- F和弦 - 下属和弦 -->
+                    <div class="chord-block" data-chord="F">
+                        <div class="chord-header">
+                            <h3 class="chord-title">F 和弦 - "向外走"的感觉</h3>
+                            <span class="chord-function">下属和弦 (Subdominant)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball">F</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">A</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">C</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>F和弦</strong>叫做"下属和弦"，它让你感觉<strong>"离开了家，在旅途中"</strong>。
+                                    它既不是终点，也不是最紧张的地方，而是<strong>"中间状态"</strong>。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('F', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 F 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：像是踏上旅途，有期待感，不那么稳定</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"小星星"</strong> 第二句"满天都是小星星"开头是F，感觉像在扩展。</p>
+                                <p><strong>"Country Roads"</strong> "West Virginia" 那个向上走的感觉。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- G和弦 - 属和弦 -->
+                    <div class="chord-block" data-chord="G">
+                        <div class="chord-header">
+                            <h3 class="chord-title">G 和弦 - "想要回家"的感觉</h3>
+                            <span class="chord-function">属和弦 (Dominant)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball">G</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">B</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball">D</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>G和弦</strong>叫做"属和弦"，它是<strong>最紧张</strong>的和弦！
+                                    听到它，你会强烈地<strong>"想要回到C"</strong>——这种感觉叫做<strong>"张力"</strong>。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('G', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 G 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：紧张！不满足！感觉要"解决"到某个地方！</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"小星星"</strong> "挂在天空放光明"最后那个和弦，感觉没结束？那就是G！</p>
+                                <p><strong>"Twist and Shout"</strong> 最后那句之前，紧张感达到顶点。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 什么是"解决" -->
+                <section class="concept-section highlight">
+                    <h2>💡 什么是"解决" (Resolution)？</h2>
+                    <div class="concept-card">
+                        <p><strong>解决</strong>就是<strong>"紧张→放松"</strong>的过程。</p>
+                        <p>想象一部电影：</p>
+                        <ul>
+                            <li><strong>C (家)</strong> → 一切安好，剧情稳定</li>
+                            <li><strong>F (旅途中)</strong> → 开始冒险，事情变化</li>
+                            <li><strong>G (危机点)</strong> → 高潮！最紧张！你屏住呼吸</li>
+                            <li><strong>C (回家)</strong> → 啊~解决了！满足！</li>
+                        </ul>
+                        <p>音乐就是在不断创造<strong>"紧张"</strong>然后<strong>"解决"</strong>，让你感觉像坐过山车一样！</p>
+                    </div>
+                    
+                    <div class="resolution-demo">
+                        <h3>🎵 亲自感受"解决"</h3>
+                        <div class="demo-buttons">
+                            <button class="play-btn" onclick="playProgression(['G', 'C'])">
+                                <span class="play-icon">▶</span> G → C (感受解决！)
+                            </button>
+                            <button class="play-btn secondary" onclick="playProgression(['G'])">
+                                <span class="play-icon">▶</span> 只听G (不满足的感觉)
+                            </button>
+                        </div>
+                        <p class="demo-hint">第一个按钮：G紧张 → C解决，是不是感觉"啊~舒服了"？<br>
+                        第二个按钮：只停在G，是不是感觉"别停啊！要解决啊！"？</p>
+                    </div>
+                </section>
+
+                <!-- 练习区域 -->
+                <section class="practice-section">
+                    <h2>🎯 开始练习：听辨 C、F、G</h2>
+                    <p class="practice-intro">现在来测试一下你的耳朵！我会播放一个和弦，你来猜是哪一个。</p>
+                    
+                    <div class="practice-area">
+                        <div class="practice-question">
+                            <span class="question-label">正在播放：</span>
+                            <span class="question-display" id="question-display-1">点击"播放和弦"开始</span>
+                        </div>
+                        
+                        <button class="play-btn xlarge" onclick="playRandomChord(1)">
+                            <span class="play-icon">▶</span>
+                            <span>播放和弦</span>
+                        </button>
+                        
+                        <div class="answer-buttons" id="answer-buttons-1">
+                            <button class="answer-btn" data-answer="C" onclick="checkAnswer(1, 'C')">
+                                <span class="answer-chord">C</span>
+                                <span class="answer-desc">家的感觉</span>
+                            </button>
+                            <button class="answer-btn" data-answer="F" onclick="checkAnswer(1, 'F')">
+                                <span class="answer-chord">F</span>
+                                <span class="answer-desc">向外走</span>
+                            </button>
+                            <button class="answer-btn" data-answer="G" onclick="checkAnswer(1, 'G')">
+                                <span class="answer-chord">G</span>
+                                <span class="answer-desc">想回家</span>
+                            </button>
+                        </div>
+                        
+                        <div class="practice-feedback" id="feedback-1"></div>
+                        
+                        <div class="practice-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="correct-1">0</span>
+                                <span class="stat-label">正确</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="total-1">0</span>
+                                <span class="stat-label">总计</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="streak-1">0</span>
+                                <span class="stat-label">连胜</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 总结 -->
+                <section class="summary-section">
+                    <h2>📝 第1课总结</h2>
+                    <div class="summary-card">
+                        <div class="summary-item">
+                            <span class="summary-icon">🏠</span>
+                            <div class="summary-content">
+                                <strong>C 和弦 (主和弦)</strong>
+                                <p>稳定、完成、家。明亮的大调声音。</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🚶</span>
+                            <div class="summary-content">
+                                <strong>F 和弦 (下属和弦)</strong>
+                                <p>离家的旅程、中间状态、期待感。</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🔥</span>
+                            <div class="summary-content">
+                                <strong>G 和弦 (属和弦)</strong>
+                                <p>最紧张！强烈想要"解决"到C。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="next-lesson">
+                        <button class="next-btn" onclick="goToLesson(2)">
+                            下一课：学习小调和弦 Am、Em、Dm →
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ========== 第2课：Am、Em、Dm ========== -->
+        <div class="lesson" id="lesson-2">
+            <div class="lesson-header">
+                <div class="lesson-badge">第2课</div>
+                <h1>三个小调和弦：Am、Em、Dm</h1>
+                <p class="lesson-subtitle">学会这些，你就能感受"忧伤"和"深沉"的音乐情绪了！</p>
+            </div>
+
+            <div class="lesson-content">
+                <!-- 小调介绍 -->
+                <section class="concept-section">
+                    <h2>🎭 大调 vs 小调：情绪的差异</h2>
+                    <div class="comparison-demo">
+                        <div class="compare-item">
+                            <button class="play-btn" onclick="playChord('C', 4)">▶ C 大调</button>
+                            <p class="compare-desc">明亮、开心、阳光 ☀️</p>
+                        </div>
+                        <div class="compare-vs">VS</div>
+                        <div class="compare-item">
+                            <button class="play-btn" onclick="playChord('Am', 4)">▶ Am 小调</button>
+                            <p class="compare-desc">忧伤、深沉、内省 🌙</p>
+                        </div>
+                    </div>
+                    <div class="concept-card">
+                        <p><strong>小调和弦</strong>比大调和弦<strong>少一个半音</strong>。</p>
+                        <p>C大调：C-E-G（大三度）</p>
+                        <p>Am小调：A-C-E（小三度）</p>
+                        <p>就是这<strong>一个半音的差别</strong>，决定了"快乐"还是"忧伤"！</p>
+                    </div>
+                </section>
+
+                <!-- 三个小调和弦讲解 -->
+                <section class="chord-section">
+                    <h2>🎵 认识 Am、Em、Dm 三个小调和弦</h2>
+                    
+                    <!-- Am和弦 -->
+                    <div class="chord-block minor" data-chord="Am">
+                        <div class="chord-header">
+                            <h3 class="chord-title">Am 和弦 - "忧伤的家"</h3>
+                            <span class="chord-function">小调主和弦 (Minor Tonic)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball minor">A</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">C</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">E</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>Am和弦</strong>是A小调的"主和弦"。
+                                    它和C大调是<strong>"亲戚"</strong>（关系小调），但情绪完全不同！
+                                    C是阳光，Am是<strong>月光</strong>。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('Am', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 Am 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：悲伤但不绝望，内省、温柔</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"Someone Like You"</strong> (Adele) 开头那个和弦，一听到就想哭？那就是Am的感觉。</p>
+                                <p><strong>"Hurt"</strong> (Johnny Cash) 整首歌都是Am的情绪。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dm和弦 -->
+                    <div class="chord-block minor" data-chord="Dm">
+                        <div class="chord-header">
+                            <h3 class="chord-title">Dm 和弦 - "悲伤的旅途"</h3>
+                            <span class="chord-function">小调下属和弦 (Minor Subdominant)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball minor">D</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">F</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">A</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>Dm和弦</strong>是小调世界的"旅途"和弦。
+                                    它比Am<strong>更加悲伤</strong>，感觉像是在<strong>哭泣</strong>。
+                                    很多悲伤歌曲会用Dm→Am的进行。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('Dm', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 Dm 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：比Am更悲伤、更沉重</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"Sultans of Swing"</strong> (Dire Straits) 那个经典吉他riff开头。</p>
+                                <p><strong>"小星星"</strong>的小调版本会从Am开始，第二句变成Dm。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Em和弦 -->
+                    <div class="chord-block minor" data-chord="Em">
+                        <div class="chord-header">
+                            <h3 class="chord-title">Em 和弦 - "小调的紧张"</h3>
+                            <span class="chord-function">小调属和弦 (Minor Dominant)</span>
+                        </div>
+                        <div class="chord-content">
+                            <div class="chord-info">
+                                <div class="chord-notes">
+                                    <span class="note-ball minor">E</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">G</span>
+                                    <span class="plus">+</span>
+                                    <span class="note-ball minor">B</span>
+                                </div>
+                                <p class="chord-desc">
+                                    <strong>Em和弦</strong>有趣的地方是——它本身是一个<strong>小调和弦</strong>，
+                                    但在C大调里，它经常被用作"连接者"，不像G那么紧张，但有一种<strong>流动感</strong>。
+                                </p>
+                            </div>
+                            <div class="chord-audio">
+                                <button class="play-btn large" onclick="playChord('Em', 4)">
+                                    <span class="play-icon">▶</span>
+                                    <span>播放 Em 和弦</span>
+                                </button>
+                                <p class="audio-hint">🎵 仔细听：忧郁但不沉重，有一种向前流动的感觉</p>
+                            </div>
+                            <div class="real-example">
+                                <h4>📺 真实歌曲例子</h4>
+                                <p><strong>"Hotel California"</strong> (Eagles) 那个经典进行 Am-Em... 里的Em。</p>
+                                <p><strong>"Let It Be"</strong> 进行 C-G-Am-F 也可以改成 C-Em-Am-F。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 大调小调对比表 -->
+                <section class="concept-section">
+                    <h2>📊 大调和弦 vs 小调和弦 速查表</h2>
+                    <div class="comparison-table">
+                        <div class="table-row header">
+                            <div class="table-cell">功能</div>
+                            <div class="table-cell">大调 (快乐)</div>
+                            <div class="table-cell">小调 (忧伤)</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell">主和弦 (家)</div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('C')">▶ C</button>
+                                <span class="feeling">明亮稳定</span>
+                            </div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('Am')">▶ Am</button>
+                                <span class="feeling">悲伤稳定</span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell">下属和弦 (旅途)</div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('F')">▶ F</button>
+                                <span class="feeling">向外扩展</span>
+                            </div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('Dm')">▶ Dm</button>
+                                <span class="feeling">更加悲伤</span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell">属和弦 (紧张)</div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('G')">▶ G</button>
+                                <span class="feeling">强烈紧张</span>
+                            </div>
+                            <div class="table-cell">
+                                <button class="mini-btn" onclick="playChord('Em')">▶ Em</button>
+                                <span class="feeling">流动感</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 小调的"解决" -->
+                <section class="concept-section highlight">
+                    <h2>💡 小调的"解决"感觉不同</h2>
+                    <div class="concept-card">
+                        <p>大调的解决是<strong>"完成！开心！"</strong></p>
+                        <p>小调的解决是<strong>"接受。平静。"</strong></p>
+                        <p>就像：</p>
+                        <ul>
+                            <li>大调解决 = "问题解决了！🎉"</li>
+                            <li>小调解决 = "我接受这个悲伤了。🌧️"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resolution-demo">
+                        <h3>🎵 感受小调的"解决"</h3>
+                        <div class="demo-buttons">
+                            <button class="play-btn" onclick="playProgression(['Dm', 'Am'])">
+                                <span class="play-icon">▶</span> Dm → Am (小调解决)
+                            </button>
+                            <button class="play-btn" onclick="playProgression(['G', 'C'])">
+                                <span class="play-icon">▶</span> G → C (大调解决)
+                            </button>
+                        </div>
+                        <p class="demo-hint">
+                            <strong>Dm→Am</strong>：悲伤的接受，像雨过天晴后的宁静。<br>
+                            <strong>G→C</strong>：快乐的完成，像完成了一项任务！
+                        </p>
+                    </div>
+                </section>
+
+                <!-- 练习区域 -->
+                <section class="practice-section">
+                    <h2>🎯 练习：听辨 Am、Dm、Em</h2>
+                    <p class="practice-intro">现在来测试小调和弦！记得：<strong>小调 = 忧伤</strong>，但每个小调和弦也有细微差别。</p>
+                    
+                    <div class="practice-area">
+                        <div class="practice-question">
+                            <span class="question-label">正在播放：</span>
+                            <span class="question-display" id="question-display-2">点击"播放和弦"开始</span>
+                        </div>
+                        
+                        <button class="play-btn xlarge" onclick="playRandomChord(2)">
+                            <span class="play-icon">▶</span>
+                            <span>播放和弦</span>
+                        </button>
+                        
+                        <div class="answer-buttons" id="answer-buttons-2">
+                            <button class="answer-btn minor" data-answer="Am" onclick="checkAnswer(2, 'Am')">
+                                <span class="answer-chord">Am</span>
+                                <span class="answer-desc">忧伤的家</span>
+                            </button>
+                            <button class="answer-btn minor" data-answer="Dm" onclick="checkAnswer(2, 'Dm')">
+                                <span class="answer-chord">Dm</span>
+                                <span class="answer-desc">更悲伤</span>
+                            </button>
+                            <button class="answer-btn minor" data-answer="Em" onclick="checkAnswer(2, 'Em')">
+                                <span class="answer-chord">Em</span>
+                                <span class="answer-desc">流动的忧伤</span>
+                            </button>
+                        </div>
+                        
+                        <div class="practice-feedback" id="feedback-2"></div>
+                        
+                        <div class="practice-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="correct-2">0</span>
+                                <span class="stat-label">正确</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="total-2">0</span>
+                                <span class="stat-label">总计</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="streak-2">0</span>
+                                <span class="stat-label">连胜</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 综合练习 -->
+                <section class="practice-section challenge">
+                    <h2>🔥 挑战模式：混合练习！</h2>
+                    <p class="practice-intro">现在我会随机播放<strong>大调或小调</strong>和弦，看看你能不能区分！</p>
+                    
+                    <div class="practice-area">
+                        <button class="play-btn xlarge challenge" onclick="playRandomChord(3)">
+                            <span class="play-icon">▶</span>
+                            <span>随机播放和弦</span>
+                        </button>
+                        
+                        <div class="answer-buttons grid-6" id="answer-buttons-3">
+                            <button class="answer-btn" data-answer="C" onclick="checkAnswer(3, 'C')">C</button>
+                            <button class="answer-btn" data-answer="F" onclick="checkAnswer(3, 'F')">F</button>
+                            <button class="answer-btn" data-answer="G" onclick="checkAnswer(3, 'G')">G</button>
+                            <button class="answer-btn minor" data-answer="Am" onclick="checkAnswer(3, 'Am')">Am</button>
+                            <button class="answer-btn minor" data-answer="Dm" onclick="checkAnswer(3, 'Dm')">Dm</button>
+                            <button class="answer-btn minor" data-answer="Em" onclick="checkAnswer(3, 'Em')">Em</button>
+                        </div>
+                        
+                        <div class="practice-feedback" id="feedback-3"></div>
+                        
+                        <div class="practice-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="correct-3">0</span>
+                                <span class="stat-label">正确</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="total-3">0</span>
+                                <span class="stat-label">总计</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="streak-3">0</span>
+                                <span class="stat-label">连胜</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 总结 -->
+                <section class="summary-section">
+                    <h2>📝 第2课总结</h2>
+                    <div class="summary-card">
+                        <div class="summary-item">
+                            <span class="summary-icon">🌙</span>
+                            <div class="summary-content">
+                                <strong>Am 和弦 (小调主和弦)</strong>
+                                <p>悲伤但稳定，像月光下的思考。</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🌧️</span>
+                            <div class="summary-content">
+                                <strong>Dm 和弦 (小调下属和弦)</strong>
+                                <p>比Am更悲伤，像哭泣的旅程。</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🌊</span>
+                            <div class="summary-content">
+                                <strong>Em 和弦 (小调属和弦)</strong>
+                                <p>流动的忧伤，向前推进。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h3>💡 听辨技巧</h3>
+                        <ol>
+                            <li><strong>先判断大调还是小调</strong>：明亮 vs 忧伤</li>
+                            <li><strong>再判断功能</strong>：稳定(家) vs 旅途 vs 紧张</li>
+                            <li><strong>相信第一感觉</strong>：不要想太多！</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="prev-lesson">
+                        <button class="prev-btn" onclick="goToLesson(1)">
+                            ← 上一课：复习 C、F、G
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <p>🎹 和弦听辨入门课程 | 多听多练，耳朵会越来越灵！</p>
+            <p class="footer-hint">💡 建议：每天练习10-15分钟，一周后你就会有明显进步！</p>
+        </footer>
+    </div>
+
+    <script src="audio-engine.js"></script>
+    <script src="course.js"></script>
+</body>
+</html>

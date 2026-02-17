@@ -1,5 +1,5 @@
 /**
- * 和弦听辨课程逻辑（完整版）
+ * 和弦听辨课程逻辑（完整版 + 旋律演示）
  */
 
 // 基础和弦练习数据
@@ -19,10 +19,10 @@ const lessonData = {
 // 第3课走向练习
 const progressionData = {
     progressions: {
-        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon进行' },
-        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代进行' },
-        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤进行' },
-        'simple': { chords: ['C', 'F', 'G', 'C'], name: '三和弦' }
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon进行', demo: 'canon' },
+        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代进行', demo: '50s' },
+        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤进行', demo: 'sad' },
+        'simple': { chords: ['C', 'F', 'G', 'C'], name: '三和弦', demo: 'simple' }
     },
     currentProgression: null,
     stats: { correct: 0, total: 0 }
@@ -31,9 +31,9 @@ const progressionData = {
 // 第4课爵士练习
 const jazzData = {
     progressions: {
-        'ii-v-i': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I' },
-        'i-iv-v': { chords: ['C', 'F', 'G'], name: 'I-IV-V' },
-        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon' }
+        'ii-v-i': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I', demo: 'iiv' },
+        'i-iv-v': { chords: ['C', 'F', 'G'], name: 'I-IV-V', demo: 'simple' },
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon', demo: 'canon' }
     },
     currentProgression: null,
     stats: { correct: 0, total: 0 }
@@ -53,18 +53,30 @@ const bluesData = {
 // 第6课综合练习
 const allProgressionsData = {
     progressions: {
-        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon' },
-        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代' },
-        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤' },
-        'iiv': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I' },
-        'axis': { chords: ['Am', 'F', 'C', 'G'], name: 'Axis' },
-        'sensitive': { chords: ['C', 'Em', 'Am', 'F'], name: '敏感' },
-        'andalusian': { chords: ['Am', 'G', 'F', 'E'], name: 'Andalusian' },
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon', demo: 'canon' },
+        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代', demo: '50s' },
+        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤', demo: 'sad' },
+        'iiv': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I', demo: 'iiv' },
+        'axis': { chords: ['Am', 'F', 'C', 'G'], name: 'Axis', demo: 'axis' },
+        'sensitive': { chords: ['C', 'Em', 'Am', 'F'], name: '敏感', demo: 'sensitive' },
+        'andalusian': { chords: ['Am', 'G', 'F', 'E'], name: 'Andalusian', demo: 'andalusian' },
         'blues': { chords: ['C', 'C', 'C', 'C', 'F', 'F'], name: '蓝调' }
     },
     currentProgression: null,
     stats: { correct: 0, total: 0 }
 };
+
+// ========== 新增：播放带旋律的走向演示 ==========
+
+async function playCanonDemo() { await playDemo('canon'); }
+async function play50sDemo() { await playDemo('50s'); }
+async function playSadDemo() { await playDemo('sad'); }
+async function playSimpleDemo() { await playDemo('simple'); }
+async function playIivDemo() { await playDemo('iiv'); }
+async function playAxisDemo() { await playDemo('axis'); }
+async function playSensitiveDemo() { await playDemo('sensitive'); }
+async function playAndalusianDemo() { await playDemo('andalusian'); }
+async function playBlues12Demo() { await playDemo('blues12'); }
 
 // ========== 基础练习函数 ==========
 
@@ -184,7 +196,6 @@ async function playBluesProgression() {
     bluesData.currentProgression = randomKey;
     const progression = bluesData.progressions[randomKey];
     
-    // 只播放前6个和弦作为提示
     await playProgression(progression.chords.slice(0, 6));
     resetProgressionButtons('blues');
 }

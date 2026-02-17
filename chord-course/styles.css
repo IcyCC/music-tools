@@ -1003,3 +1003,47 @@ body {
 .play-btn.challenge:hover {
     background: linear-gradient(135deg, #dc2626, #d97706);
 }
+
+/* ===== 旋律演示按钮 ===== */
+.demo-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));
+    border-radius: var(--radius);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.demo-section h4 {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+.demo-buttons-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.play-btn.demo {
+    background: linear-gradient(135deg, #10b981, #059669);
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+}
+
+.play-btn.demo:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+.play-btn.chords-only {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+}
+
+.demo-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}

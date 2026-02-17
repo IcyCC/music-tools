@@ -1,5 +1,5 @@
 /**
- * 音频引擎 - 和弦听辨课程
+ * 音频引擎 - 和弦听辨课程（扩展版）
  */
 
 class AudioEngine {
@@ -9,9 +9,6 @@ class AudioEngine {
         this.initialized = false;
     }
 
-    /**
-     * 初始化音频上下文
-     */
     async init() {
         if (this.initialized) return;
         
@@ -26,9 +23,6 @@ class AudioEngine {
         }
     }
 
-    /**
-     * 播放单个和弦
-     */
     async playChord(chordName, octave = 4) {
         await this.init();
         
@@ -41,31 +35,24 @@ class AudioEngine {
         });
     }
 
-    /**
-     * 播放和弦进行
-     */
-    async playProgression(chords) {
+    async playProgression(chords, bpm = 90) {
         await this.init();
         
         const now = this.audioContext.currentTime;
-        const chordDuration = 1.2;
+        const beatDuration = 60 / bpm;
         
         chords.forEach((chord, index) => {
-            const startTime = now + index * chordDuration;
+            const startTime = now + index * beatDuration;
             const notes = this.getChordNotes(chord, 4);
             notes.forEach(freq => {
-                this.playNote(freq, startTime, chordDuration - 0.2);
+                this.playNote(freq, startTime, beatDuration - 0.1);
             });
         });
     }
 
-    /**
-     * 播放单个音符
-     */
     playNote(frequency, startTime, duration) {
         const ctx = this.audioContext;
         
-        // 创建振荡器组合模拟钢琴
         const osc1 = ctx.createOscillator();
         const osc2 = ctx.createOscillator();
         const osc3 = ctx.createOscillator();
@@ -74,7 +61,6 @@ class AudioEngine {
         const gain2 = ctx.createGain();
         const gain3 = ctx.createGain();
         
-        // 基频 + 泛音
         osc1.type = 'triangle';
         osc1.frequency.value = frequency;
         
@@ -84,19 +70,16 @@ class AudioEngine {
         osc3.type = 'sine';
         osc3.frequency.value = frequency * 3;
         
-        // 音量设置
         gain1.gain.value = 0.5;
         gain2.gain.value = 0.2;
         gain3.gain.value = 0.1;
         
-        // 包络
         const envelope = ctx.createGain();
         envelope.gain.setValueAtTime(0, startTime);
         envelope.gain.linearRampToValueAtTime(0.6, startTime + 0.02);
         envelope.gain.exponentialRampToValueAtTime(0.3, startTime + 0.3);
         envelope.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
         
-        // 连接
         osc1.connect(gain1);
         osc2.connect(gain2);
         osc3.connect(gain3);
@@ -107,7 +90,6 @@ class AudioEngine {
         
         envelope.connect(this.masterGain);
         
-        // 开始和结束
         osc1.start(startTime);
         osc2.start(startTime);
         osc3.start(startTime);
@@ -117,19 +99,20 @@ class AudioEngine {
         osc3.stop(startTime + duration + 0.1);
     }
 
-    /**
-     * 获取和弦的音符频率
-     */
     getChordNotes(chordName, octave) {
         const chordData = {
             // 大调和弦
             'C':  { root: 'C', type: 'major' },
             'F':  { root: 'F', type: 'major' },
             'G':  { root: 'G', type: 'major' },
+            'D':  { root: 'D', type: 'major' },
+            'E':  { root: 'E', type: 'major' },
+            'A':  { root: 'A', type: 'major' },
             // 小调和弦
             'Am': { root: 'A', type: 'minor' },
             'Dm': { root: 'D', type: 'minor' },
-            'Em': { root: 'E', type: 'minor' }
+            'Em': { root: 'E', type: 'minor' },
+            'Bm': { root: 'B', type: 'minor' }
         };
         
         const data = chordData[chordName];
@@ -138,25 +121,20 @@ class AudioEngine {
         const rootFreq = this.noteToFrequency(data.root, octave);
         
         if (data.type === 'major') {
-            // 大三和弦：根音、大三度、纯五度
             return [
                 rootFreq,
-                rootFreq * Math.pow(2, 4/12),  // 大三度
-                rootFreq * Math.pow(2, 7/12)   // 纯五度
+                rootFreq * Math.pow(2, 4/12),
+                rootFreq * Math.pow(2, 7/12)
             ];
         } else {
-            // 小三和弦：根音、小三度、纯五度
             return [
                 rootFreq,
-                rootFreq * Math.pow(2, 3/12),  // 小三度
-                rootFreq * Math.pow(2, 7/12)   // 纯五度
+                rootFreq * Math.pow(2, 3/12),
+                rootFreq * Math.pow(2, 7/12)
             ];
         }
     }
 
-    /**
-     * 音名转频率
-     */
     noteToFrequency(note, octave) {
         const noteMap = {
             'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3,
@@ -170,14 +148,22 @@ class AudioEngine {
     }
 }
 
-// 全局实例
 const audioEngine = new AudioEngine();
 
-// 全局函数供HTML调用
 async function playChord(chordName, octave = 4) {
     await audioEngine.playChord(chordName, octave);
 }
 
 async function playProgression(chords) {
     await audioEngine.playProgression(chords);
+}
+
+// 12小节蓝调
+async function play12BarBlues() {
+    await playProgression(['C', 'C', 'C', 'C', 'F', 'F', 'C', 'C', 'G', 'F', 'C', 'G']);
+}
+
+// 8小节蓝调
+async function play8BarBlues() {
+    await playProgression(['C', 'F', 'C', 'G', 'F', 'C', 'G', 'G']);
 }

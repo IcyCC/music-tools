@@ -1,27 +1,22 @@
 /**
- * 和弦听辨课程逻辑
+ * 和弦听辨课程逻辑（完整版）
  */
 
-// 课程数据
+// 基础和弦练习数据
 const lessonData = {
     1: {
         chords: ['C', 'F', 'G'],
         currentChord: null,
-        stats: { correct: 0, total: 0, streak: 0 }
+        stats: { correct: 0, total: 0 }
     },
     2: {
         chords: ['Am', 'Dm', 'Em'],
         currentChord: null,
-        stats: { correct: 0, total: 0, streak: 0 }
-    },
-    3: {
-        chords: ['C', 'F', 'G', 'Am', 'Dm', 'Em'],
-        currentChord: null,
-        stats: { correct: 0, total: 0, streak: 0 }
+        stats: { correct: 0, total: 0 }
     }
 };
 
-// 走向练习数据
+// 第3课走向练习
 const progressionData = {
     progressions: {
         'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon进行' },
@@ -33,64 +28,83 @@ const progressionData = {
     stats: { correct: 0, total: 0 }
 };
 
-/**
- * 播放随机和弦
- */
+// 第4课爵士练习
+const jazzData = {
+    progressions: {
+        'ii-v-i': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I' },
+        'i-iv-v': { chords: ['C', 'F', 'G'], name: 'I-IV-V' },
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon' }
+    },
+    currentProgression: null,
+    stats: { correct: 0, total: 0 }
+};
+
+// 第5课蓝调练习
+const bluesData = {
+    progressions: {
+        '12bar': { chords: ['C', 'C', 'C', 'C', 'F', 'F', 'C', 'C', 'G', 'F', 'C', 'G'], name: '12小节蓝调' },
+        '8bar': { chords: ['C', 'F', 'C', 'G', 'F', 'C', 'G', 'G'], name: '8小节蓝调' },
+        'notblues': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon（不是蓝调）' }
+    },
+    currentProgression: null,
+    stats: { correct: 0, total: 0 }
+};
+
+// 第6课综合练习
+const allProgressionsData = {
+    progressions: {
+        'canon': { chords: ['C', 'G', 'Am', 'F'], name: 'Canon' },
+        '50s': { chords: ['C', 'Am', 'F', 'G'], name: '50年代' },
+        'sad': { chords: ['Am', 'F', 'C', 'G'], name: '悲伤' },
+        'iiv': { chords: ['Dm', 'G', 'C'], name: 'ii-V-I' },
+        'axis': { chords: ['Am', 'F', 'C', 'G'], name: 'Axis' },
+        'sensitive': { chords: ['C', 'Em', 'Am', 'F'], name: '敏感' },
+        'andalusian': { chords: ['Am', 'G', 'F', 'E'], name: 'Andalusian' },
+        'blues': { chords: ['C', 'C', 'C', 'C', 'F', 'F'], name: '蓝调' }
+    },
+    currentProgression: null,
+    stats: { correct: 0, total: 0 }
+};
+
+// ========== 基础练习函数 ==========
+
 async function playRandomChord(lessonId) {
     const lesson = lessonData[lessonId];
     const chords = lesson.chords;
-    
-    // 随机选择一个和弦
-    const randomIndex = Math.floor(Math.random() * chords.length);
-    const chord = chords[randomIndex];
-    
+    const chord = chords[Math.floor(Math.random() * chords.length)];
     lesson.currentChord = chord;
     
-    // 更新显示
     const display = document.getElementById(`question-display-${lessonId}`);
-    if (display) {
-        display.textContent = '🔊 正在播放...';
-    }
+    if (display) display.textContent = '🔊 正在播放...';
     
-    // 播放和弦
     await playChord(chord);
     
-    // 延迟后更新显示
     setTimeout(() => {
-        if (display) {
-            display.textContent = '🎧 听出来了吗？选择答案';
-        }
+        if (display) display.textContent = '🎧 听出来了吗？';
     }, 500);
     
-    // 重置答案按钮状态
     resetAnswerButtons(lessonId);
 }
 
-/**
- * 检查答案
- */
 function checkAnswer(lessonId, answer) {
     const lesson = lessonData[lessonId];
     const correct = answer === lesson.currentChord;
     
-    // 更新统计
     lesson.stats.total++;
-    if (correct) {
-        lesson.stats.correct++;
-        lesson.stats.streak++;
-    } else {
-        lesson.stats.streak = 0;
-    }
+    if (correct) lesson.stats.correct++;
     
-    // 更新UI
-    updateStats(lessonId);
-    showFeedback(lessonId, correct, lesson.currentChord);
+    document.getElementById(`correct-${lessonId}`).textContent = lesson.stats.correct;
+    document.getElementById(`total-${lessonId}`).textContent = lesson.stats.total;
+    
+    const feedback = document.getElementById(`feedback-${lessonId}`);
+    feedback.textContent = correct ? '✅ 正确！' : `❌ 不对，是 ${lesson.currentChord}`;
+    feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
+    
     highlightAnswer(lessonId, answer, correct);
 }
 
-/**
- * 播放随机走向
- */
+// ========== 第3课走向练习 ==========
+
 async function playRandomProgression() {
     const keys = Object.keys(progressionData.progressions);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
@@ -98,129 +112,157 @@ async function playRandomProgression() {
     progressionData.currentProgression = randomKey;
     const progression = progressionData.progressions[randomKey];
     
-    // 更新显示
     const display = document.getElementById('question-display-prog');
-    if (display) {
-        display.textContent = '🔊 正在播放和弦走向...';
-    }
+    if (display) display.textContent = '🔊 正在播放...';
     
-    // 播放走向
     await playProgression(progression.chords);
     
     setTimeout(() => {
-        if (display) {
-            display.textContent = '🎧 听出来了吗？';
-        }
+        if (display) display.textContent = '🎧 听出来了吗？';
     }, 500);
     
-    // 重置按钮
-    resetProgressionButtons();
+    resetProgressionButtons('prog');
 }
 
-/**
- * 检查走向答案
- */
 function checkProgressionAnswer(answer) {
     const correct = answer === progressionData.currentProgression;
     const correctProg = progressionData.progressions[progressionData.currentProgression];
     
     progressionData.stats.total++;
-    if (correct) {
-        progressionData.stats.correct++;
-    }
+    if (correct) progressionData.stats.correct++;
     
-    // 更新统计
     document.getElementById('correct-prog').textContent = progressionData.stats.correct;
     document.getElementById('total-prog').textContent = progressionData.stats.total;
     
-    // 显示反馈
     const feedback = document.getElementById('feedback-prog');
-    if (correct) {
-        feedback.textContent = `✅ 正确！这是${correctProg.name} (${correctProg.chords.join('-')})`;
-        feedback.className = 'practice-feedback correct';
-    } else {
-        const userProg = progressionData.progressions[answer];
-        feedback.textContent = `❌ 不对哦，正确答案是${correctProg.name} (${correctProg.chords.join('-')})`;
-        feedback.className = 'practice-feedback wrong';
-    }
+    feedback.textContent = correct ? 
+        `✅ 正确！${correctProg.name}` : 
+        `❌ 不对，是${correctProg.name}`;
+    feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
     
-    // 高亮按钮
-    highlightProgressionAnswer(answer, correct);
+    highlightProgressionButtons('prog', answer, correct);
 }
 
-/**
- * 高亮走向答案
- */
-function highlightProgressionAnswer(answer, correct) {
-    const buttons = document.querySelectorAll('#answer-buttons-prog .answer-btn');
+// ========== 第4课爵士练习 ==========
+
+async function playJazzProgression() {
+    const keys = Object.keys(jazzData.progressions);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
     
-    buttons.forEach(btn => {
-        btn.classList.remove('correct', 'wrong');
-        
-        if (btn.dataset.answer === progressionData.currentProgression) {
-            btn.classList.add('correct');
-        } else if (btn.dataset.answer === answer && !correct) {
-            btn.classList.add('wrong');
-        }
-    });
+    jazzData.currentProgression = randomKey;
+    const progression = jazzData.progressions[randomKey];
+    
+    await playProgression(progression.chords);
+    resetProgressionButtons('jazz');
 }
 
-/**
- * 重置走向按钮
- */
-function resetProgressionButtons() {
-    const buttons = document.querySelectorAll('#answer-buttons-prog .answer-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('correct', 'wrong');
-    });
+function checkJazzAnswer(answer) {
+    const correct = answer === jazzData.currentProgression;
+    const correctProg = jazzData.progressions[jazzData.currentProgression];
     
-    const feedback = document.getElementById('feedback-prog');
+    jazzData.stats.total++;
+    if (correct) jazzData.stats.correct++;
+    
+    document.getElementById('correct-jazz').textContent = jazzData.stats.correct;
+    document.getElementById('total-jazz').textContent = jazzData.stats.total;
+    
+    const feedback = document.getElementById('feedback-jazz');
+    feedback.textContent = correct ? 
+        `✅ 正确！${correctProg.name}` : 
+        `❌ 不对，是${correctProg.name}`;
+    feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
+    
+    highlightProgressionButtons('jazz', answer, correct);
+}
+
+// ========== 第5课蓝调练习 ==========
+
+async function playBluesProgression() {
+    const keys = Object.keys(bluesData.progressions);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    
+    bluesData.currentProgression = randomKey;
+    const progression = bluesData.progressions[randomKey];
+    
+    // 只播放前6个和弦作为提示
+    await playProgression(progression.chords.slice(0, 6));
+    resetProgressionButtons('blues');
+}
+
+function checkBluesAnswer(answer) {
+    const correct = answer === bluesData.currentProgression;
+    const correctProg = bluesData.progressions[bluesData.currentProgression];
+    
+    bluesData.stats.total++;
+    if (correct) bluesData.stats.correct++;
+    
+    document.getElementById('correct-blues').textContent = bluesData.stats.correct;
+    document.getElementById('total-blues').textContent = bluesData.stats.total;
+    
+    const feedback = document.getElementById('feedback-blues');
+    feedback.textContent = correct ? 
+        `✅ 正确！${correctProg.name}` : 
+        `❌ 不对，是${correctProg.name}`;
+    feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
+    
+    highlightProgressionButtons('blues', answer, correct);
+}
+
+// ========== 第6课综合练习 ==========
+
+async function playRandomAllProgression() {
+    const keys = Object.keys(allProgressionsData.progressions);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    
+    allProgressionsData.currentProgression = randomKey;
+    const progression = allProgressionsData.progressions[randomKey];
+    
+    const display = document.getElementById('question-display-all');
+    if (display) display.textContent = '🔊 正在播放...';
+    
+    await playProgression(progression.chords);
+    
+    setTimeout(() => {
+        if (display) display.textContent = '🎧 听出来了吗？';
+    }, 500);
+    
+    resetProgressionButtons('all');
+}
+
+function checkAllAnswer(answer) {
+    const correct = answer === allProgressionsData.currentProgression;
+    const correctProg = allProgressionsData.progressions[allProgressionsData.currentProgression];
+    
+    allProgressionsData.stats.total++;
+    if (correct) allProgressionsData.stats.correct++;
+    
+    document.getElementById('correct-all').textContent = allProgressionsData.stats.correct;
+    document.getElementById('total-all').textContent = allProgressionsData.stats.total;
+    
+    const feedback = document.getElementById('feedback-all');
+    feedback.textContent = correct ? 
+        `✅ 正确！${correctProg.name}` : 
+        `❌ 不对，是${correctProg.name}`;
+    feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
+    
+    highlightProgressionButtons('all', answer, correct);
+}
+
+// ========== 辅助函数 ==========
+
+function resetAnswerButtons(lessonId) {
+    document.querySelectorAll(`#answer-buttons-${lessonId} .answer-btn`)
+        .forEach(btn => btn.classList.remove('correct', 'wrong'));
+    const feedback = document.getElementById(`feedback-${lessonId}`);
     if (feedback) {
         feedback.textContent = '';
         feedback.className = 'practice-feedback';
     }
 }
 
-/**
- * 更新统计显示
- */
-function updateStats(lessonId) {
-    const stats = lessonData[lessonId].stats;
-    
-    const correctEl = document.getElementById(`correct-${lessonId}`);
-    const totalEl = document.getElementById(`total-${lessonId}`);
-    const streakEl = document.getElementById(`streak-${lessonId}`);
-    
-    if (correctEl) correctEl.textContent = stats.correct;
-    if (totalEl) totalEl.textContent = stats.total;
-    if (streakEl) streakEl.textContent = stats.streak;
-}
-
-/**
- * 显示反馈
- */
-function showFeedback(lessonId, correct, actualChord) {
-    const feedback = document.getElementById(`feedback-${lessonId}`);
-    if (!feedback) return;
-    
-    if (correct) {
-        feedback.textContent = '✅ 正确！太棒了！';
-        feedback.className = 'practice-feedback correct';
-    } else {
-        feedback.textContent = `❌ 不对哦，正确答案是 ${actualChord}`;
-        feedback.className = 'practice-feedback wrong';
-    }
-}
-
-/**
- * 高亮答案
- */
 function highlightAnswer(lessonId, answer, correct) {
-    const buttons = document.querySelectorAll(`#answer-buttons-${lessonId} .answer-btn`);
-    
-    buttons.forEach(btn => {
+    document.querySelectorAll(`#answer-buttons-${lessonId} .answer-btn`).forEach(btn => {
         btn.classList.remove('correct', 'wrong');
-        
         if (btn.dataset.answer === lessonData[lessonId].currentChord) {
             btn.classList.add('correct');
         } else if (btn.dataset.answer === answer && !correct) {
@@ -229,52 +271,57 @@ function highlightAnswer(lessonId, answer, correct) {
     });
 }
 
-/**
- * 重置答案按钮
- */
-function resetAnswerButtons(lessonId) {
-    const buttons = document.querySelectorAll(`#answer-buttons-${lessonId} .answer-btn`);
-    buttons.forEach(btn => {
-        btn.classList.remove('correct', 'wrong');
-    });
-    
-    const feedback = document.getElementById(`feedback-${lessonId}`);
+function resetProgressionButtons(type) {
+    document.querySelectorAll(`#answer-buttons-${type} .answer-btn`)
+        .forEach(btn => btn.classList.remove('correct', 'wrong'));
+    const feedback = document.getElementById(`feedback-${type}`);
     if (feedback) {
         feedback.textContent = '';
         feedback.className = 'practice-feedback';
     }
 }
 
-/**
- * 切换课程
- */
+function highlightProgressionButtons(type, answer, correct) {
+    const dataMap = {
+        'prog': progressionData,
+        'jazz': jazzData,
+        'blues': bluesData,
+        'all': allProgressionsData
+    };
+    
+    document.querySelectorAll(`#answer-buttons-${type} .answer-btn`).forEach(btn => {
+        btn.classList.remove('correct', 'wrong');
+        if (btn.dataset.answer === dataMap[type].currentProgression) {
+            btn.classList.add('correct');
+        } else if (btn.dataset.answer === answer && !correct) {
+            btn.classList.add('wrong');
+        }
+    });
+}
+
+// ========== 课程导航 ==========
+
 function goToLesson(lessonId) {
-    // 更新标签
     document.querySelectorAll('.lesson-tab').forEach(tab => {
         tab.classList.toggle('active', parseInt(tab.dataset.lesson) === lessonId);
     });
     
-    // 更新课程内容
     document.querySelectorAll('.lesson').forEach(lesson => {
         lesson.classList.toggle('active', lesson.id === `lesson-${lessonId}`);
     });
     
-    // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/**
- * 页面初始化
- */
+// ========== 初始化 ==========
+
 document.addEventListener('DOMContentLoaded', () => {
-    // 课程标签切换
     document.querySelectorAll('.lesson-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             goToLesson(parseInt(tab.dataset.lesson));
         });
     });
     
-    // 首次点击时初始化音频（浏览器要求）
     document.addEventListener('click', () => {
         audioEngine.init().catch(e => console.log('Audio init deferred'));
     }, { once: true });
